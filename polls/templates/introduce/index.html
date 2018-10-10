@@ -12,7 +12,8 @@
     <meta name="author" content="">
 
     <title>SB Admin - Dashboard</title>
-
+      
+      
     <!-- Bootstrap core CSS-->
     <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
 
@@ -28,7 +29,8 @@
   </head>
 
   <body id="page-top">
-
+	<script src="{% static 'indexscript' %}.js"></script>
+	<script src="{% static 'postJson' %}.js"></script>
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
       <a class="navbar-brand mr-1" href="index.html">Start Adivoser for Real Estate</a>
@@ -91,7 +93,6 @@
     </nav>
 
     <div id="wrapper">
-
       <!-- Sidebar -->
       <ul class="sidebar navbar-nav">
         <li class="nav-item active">
@@ -127,11 +128,7 @@
             <span>Tables</span></a>
         </li>
       </ul>
-
       <div id="content-wrapper">
-
-		  
-	
         <div class="container-fluid">
 
           <!-- Breadcrumbs-->
@@ -163,14 +160,12 @@
 
                         </div>
                         <!--Grid column-->
-
-                        <!--Grid column-->
                         <div class="col-lg-3 col-md-6">
 
-                            <!--Name Of Group-->
-                            <select name = "GuName" id="GuID" class="GuClass">
-                                 <option value="" disabled selected>Location Gu( Group )</option>
-                            	 <option value="1">Gangnam</option>
+                            <!--Name Of Group -->
+                            <select id="GuID" onchange="showSub()">
+                                 <option disabled selected>Location Gu( Group )</option> 
+								 <option value="1">Gangnam</option>
 								 <option value="2">Gangdong</option>
 								 <option value="3">Gangbuk</option>
 								 <option value="4">Gangseo</option>
@@ -197,80 +192,126 @@
 								<option value="25">Jungnang</option>
 								
                             </select>
+							
+								
                             <!--/Blue select-->
-
+						
                         </div>
-                        <!--Grid column-->
-
-                        <!--Grid column-->
+                        <!--Grid column-->						
                         <div class="col-lg-3 col-md-6">
 
                             <!--Blue select-->
-                            <select name = "DongName" id="DongID" class="DongClass">
-                                <option value="" disabled selected>How I Do THAT?</option>
-									<option value="1">W</option>
-									<option value="2">H</option>
-									<option value="3">A</option>
-									<option value="4">T</option>
-									<option value="5"> </option>
-									<option value="6">T</option>
-									<option value="7">H</option>
-									<option value="8">E</option>
-									<option value="9"></option>	
-									<option value="10">F</option>
-									<option value="11">U</option>
-									<option value="12">C</option>
-									<option value="13">K</option>
-
+						
+                            <select id="DongID">
+                                <option value="" disabled selected>INSERT</option> 
+								 <option value="1"></option>		
+								 <option value="2"></option>		
+								 <option value="3"></option>		
+								 <option value="4"></option>		
 								
-                           
+					
                             </select>
+							
+							
                             <!--/Blue select-->
 
                         </div>
                         <!--Grid column-->
-
-                        <!--Grid column-->
                         <div class="col-lg-3 col-md-6">
-
                             <form class="md-form form-inline mt-2 ml-2">
-                                <input class="form-control my-0" type="text" placeholder="Search" style="max-width: 150px;">
-                                <button class="btn btn-sm btn-info ml-2 px-2">
+                                <input class="form-control my-0" type="text" placeholder="Search" style="max-width: 150px;" id ="sText">
+                                <button class="searchBtn" id="sBtn" onclick="jPost()">
                                     <i class="fa fa-search"></i>
                                 </button>
                             </form>
 
                         </div>
                         <!--Grid column-->
-
                     </div>
                     <!--Grid row-->
 
                 </div>
                 <!--Top Table UI-->
+   
+             <!--시군구코드로 DB 탐색-->
+                    <div class="card mb-3">                        
+                        <div class="card-header">
+                              <i class="fas fa-table"></i>
+                                <div class="card-body">
+                                  <div class="table-responsive">
+                                       <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                           <thead>
+                                               <tr>
+                                                   <th>Local_code</th>
+                                                   <th>Deal_ymd</th>
+                                                   <th>Address</th>
+                                                   <th>X</th>
+                                                   <th>Y</th>
+                                            </tr>
+                                               <thead>
+                                               <tfoot>
+                                                   <tr>                                                    
+                                                       <th>Local_code</th>
+                                                       <th>Deal_ymd</th>
+                                                       <th>Address</th>
+                                                       <th>X</th>
+                                                       <th>Y</th>
+                                                </tr>                      
+                                            </tfoot>
+                                         <!--  
+                                           <tbody>
+                                               {% for d in Lawdcd %}
+                                                {% if d.Local_code == 11140 %}
+                                               <tr> 
+                                                   <th>{{d.Local_code}}</th>
+                                                   <th>{{d.Deal_ymd}}</th>
+                                                   <th>{{d.Address}}</th>
+                                                   <th>{{d.X}}</th>
+                                                   <th>{{d.Y}}</th>
+                                            </tr>
+                                               {% endif %}          
+                                        {% endfor%}
+                                    </tbody>
+                                    -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+           
+                
+			
+			
+        <div class="row">
+          <!-- naver map api-->
+         <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+            <title>간단한 지도 표시하기</title>
+                        <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=XORQXLjnF_42QQm3fDA2">            </script>
+             <script src="{% static 'mapscript' %}.js"></script>  
+        </head>
+        <body>
+            <div id="map" style="width: 100%; height: 600px; position: relative; overflow: hidden;"
+                                 </div>
+            <script>
+                var map = new naver.maps.Map('map', {
+        center: new naver.maps.LatLng(37.3595704, 127.105399), //지도의 초기 중심 좌표
+        zoom: 8, //지도의 초기 줌 레벨
+        minZoom: 1, //지도의 최소 줌 레벨
+        zoomControl: true, //줌 컨트롤의 표시 여부
+        zoomControlOptions: { //줌 컨트롤의 옵션
+            position: naver.maps.Position.TOP_RIGHT
+        }
+    });
 
-			
-			
-          <!-- Area Chart Example-->
-          <div class="card mb-3">
-            <div class="card-header">
-              <i class="fas fa-chart-area"></i>
-              Area Chart Example</div>
-            <div class="card-body">
-              <canvas id="myAreaChart" width="100%" height="30"></canvas>
-            </div>
-            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-          </div>
+//setOptions 메서드를 통해 옵션을 조정할 수도 있습니다.
+map.setOptions("mapTypeControl", true); //지도 유형 컨트롤의 표시 여부
+
+            </script>
+                                                                                                                          
+        </body>   
 		
-
-        <!-- Sticky Footer -->
-        <footer class="sticky-footer">
-          <div class="container my-auto">
-            <div class="copyright text-center my-auto">
-              <span>Copyright © Your Website 2018</span>
-            </div>
-          </div>
-        </footer>
 
       </div>
       <!-- /.content-wrapper -->
